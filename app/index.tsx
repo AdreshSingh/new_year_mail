@@ -75,11 +75,32 @@ export default function HomeScreen() {
         setSelectedSender(null);
     };
 
+    const [isTimedOut, setIsTimedOut] = useState(false);
+
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            if (convexMails === undefined) {
+                setIsTimedOut(true);
+            }
+        }, 10000);
+        return () => clearTimeout(timer);
+    }, [convexMails]);
+
     if (convexMails === undefined) {
         return (
             <View style={styles.center}>
                 <ActivityIndicator size="large" color="#0000ff" />
                 <Text>Checking Mailbox...</Text>
+                {isTimedOut && (
+                    <View style={{ marginTop: 20, padding: 20, alignItems: 'center' }}>
+                        <Text style={{ color: 'red', textAlign: 'center' }}>
+                            Connection taking longer than usual.
+                        </Text>
+                        <Text style={{ marginTop: 10, color: '#666' }}>
+                            Debug URL: {process.env.EXPO_PUBLIC_CONVEX_URL || 'Using Fallback/Hardcoded'}
+                        </Text>
+                    </View>
+                )}
             </View>
         );
     }

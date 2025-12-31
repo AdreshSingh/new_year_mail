@@ -1,7 +1,10 @@
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { ReactNode } from "react";
 
-const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!, {
+const CONVEX_URL = process.env.EXPO_PUBLIC_CONVEX_URL || "https://humorous-wombat-123.convex.cloud";
+console.log("Using Convex URL:", CONVEX_URL);
+
+const convex = new ConvexReactClient(CONVEX_URL, {
     unsavedChangesWarning: false,
 });
 
