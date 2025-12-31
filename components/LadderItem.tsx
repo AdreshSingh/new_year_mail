@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
 import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
@@ -82,21 +83,28 @@ export default function LadderItem({ item, index, total, onRemove }: LadderItemP
         <GestureDetector gesture={panGesture}>
             <Animated.View style={[styles.cardContainer, animatedStyle]}>
                 <Pressable
-                    style={[styles.card, { backgroundColor: item.color || '#fff' }]}
+                    style={styles.pressable}
                     disabled={!isTop}
                     onPress={handlePress}
                 >
-                    <View style={styles.header}>
-                        <Text style={styles.subject}>{item.subject}</Text>
-                        <Text style={styles.sender}>{item.sender}</Text>
-                    </View>
-                    <Text style={styles.preview} numberOfLines={2}>{item.preview}</Text>
-
-                    {isTop && (
-                        <View style={styles.actions}>
-                            <Text style={styles.actionText}>Swipe Up to Archive • Tap to Read</Text>
+                    <LinearGradient
+                        colors={item.gradient || [item.color || '#fff', item.color || '#fff']}
+                        style={styles.card}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 1 }}
+                    >
+                        <View style={styles.header}>
+                            <Text style={styles.subject}>{item.subject}</Text>
+                            <Text style={styles.sender}>{item.sender}</Text>
                         </View>
-                    )}
+                        <Text style={styles.preview} numberOfLines={2}>{item.preview}</Text>
+
+                        {isTop && (
+                            <View style={styles.actions}>
+                                <Text style={styles.actionText}>Swipe Up to Archive • Tap to Read</Text>
+                            </View>
+                        )}
+                    </LinearGradient>
                 </Pressable>
             </Animated.View>
         </GestureDetector>
@@ -110,6 +118,9 @@ const styles = StyleSheet.create({
         width: CARD_WIDTH,
         height: CARD_HEIGHT,
         top: 150, // Start position for the stack
+    },
+    pressable: {
+        flex: 1,
     },
     card: {
         flex: 1,

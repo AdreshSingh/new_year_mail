@@ -2,7 +2,9 @@ import { api } from '@/convex/_generated/api';
 import { useQuery } from 'convex/react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+
+const BACKGROUND_OVERLAY = require('@/assets/images/background-overlay.png');
 
 export default function MailDetail() {
     const { id } = useLocalSearchParams();
@@ -17,7 +19,7 @@ export default function MailDetail() {
     if (mailData === undefined) {
         return (
             <View style={[styles.container, { justifyContent: 'center', alignItems: 'center', backgroundColor: '#333' }]}>
-                <ActivityIndicator size="large" color="#fff" />
+                <ActivityIndicator size="large" color="black" />
                 <StatusBar style="light" />
             </View>
         );
@@ -26,7 +28,7 @@ export default function MailDetail() {
     if (!mailData) {
         return (
             <View style={[styles.container, { justifyContent: 'center', alignItems: 'center', backgroundColor: '#333' }]}>
-                <Text style={{ color: 'white' }}>Mail not found</Text>
+                <Text style={{ color: 'black' }}>Mail not found</Text>
                 <Pressable onPress={handleClose} style={styles.closeButton}>
                     <Text style={styles.closeText}>Close</Text>
                 </Pressable>
@@ -34,7 +36,6 @@ export default function MailDetail() {
         );
     }
 
-    // Map Convex data to UI
     // Map Convex data to UI
     const mail = {
         subject: mailData.subject,
@@ -44,7 +45,8 @@ export default function MailDetail() {
     };
 
     return (
-        <View style={[styles.container, { backgroundColor: mail.color }]}>
+        <View style={[styles.container]}>
+            <Image source={BACKGROUND_OVERLAY} style={styles.backgroundOverlay} />
             <Pressable onPress={handleClose} style={styles.closeButton}>
                 <Text style={styles.closeText}>Close</Text>
             </Pressable>
@@ -65,6 +67,12 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         paddingTop: 60,
+        backgroundColor: '#faf4e5',
+    },
+    backgroundOverlay: {
+        ...StyleSheet.absoluteFillObject,
+        opacity: 0.6,
+        resizeMode: 'contain',
     },
     closeButton: {
         alignSelf: 'flex-end',
@@ -72,22 +80,24 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     closeText: {
-        color: '#fff',
+        color: 'black',
         fontSize: 18,
         fontWeight: 'bold'
     },
     content: {
         flex: 1,
+        paddingVertical: 97,
+        paddingHorizontal: 20,
     },
     subject: {
         fontSize: 32,
         fontWeight: 'bold',
-        color: '#fff',
+        color: 'black',
         marginBottom: 10,
     },
     sender: {
         fontSize: 18,
-        color: 'rgba(255,255,255,0.8)',
+        color: 'black',
         marginBottom: 20,
     },
     divider: {
@@ -98,6 +108,6 @@ const styles = StyleSheet.create({
     body: {
         fontSize: 20,
         lineHeight: 30,
-        color: '#fff',
+        color: 'black',
     },
 });
