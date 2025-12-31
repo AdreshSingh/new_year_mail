@@ -97,7 +97,7 @@ export default function HomeScreen() {
                             Connection taking longer than usual.
                         </Text>
                         <Text style={{ marginTop: 10, color: '#666' }}>
-                            Debug URL: {process.env.EXPO_PUBLIC_CONVEX_URL || 'Using Fallback/Hardcoded'}
+                            Debug URL: {process.env.EXPO_PUBLIC_CONVEX_URL || 'Using Fallback: academic-kudu-403'}
                         </Text>
                     </View>
                 )}
